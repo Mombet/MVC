@@ -18,7 +18,6 @@
 // }
 // print "The request path is : ".$_SERVER['PATH_INFO'];
 
-echo 'fuckyou';
 
 $url = isset($_SERVER['PATH_INFO']) ? explode('/', ltrim($_SERVER['PATH_INFO'],'/')) : '/';
 
