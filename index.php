@@ -6,7 +6,7 @@
 <title>MyBlog</title>
 </head>
 <body>
-<h1>Hello, motherfucker!<h1>
+<h1>Blog is comming<h1>
 
 
 <?php
