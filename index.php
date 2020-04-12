@@ -8,99 +8,70 @@
 <body>
 <h1>Blog is comming<h1>
 
-
 <?php
 
-// if (!isset($_SERVER['PATH_INFO']))
-// {
-//     echo "Home page!!!";
-//     exit();
-// }
-// print "The request path is : ".$_SERVER['PATH_INFO'];
+// Check if path is available or not empty
 
+if(isset($_SERVER['PATH_INFO'])){$path= $_SERVER['PATH_INFO'];
 
-$url = isset($_SERVER['PATH_INFO']) ? explode('/', ltrim($_SERVER['PATH_INFO'],'/')) : '/';
+    // Do a path split
 
-if ($url == '/')
-{
-
-    // This is the home page
-    // Initiate the home controller
-    // and render the home view
-
-    require_once __DIR__.'/models/index_model.php';
-    require_once __DIR__.'/controllers/index_controller.php';
-    require_once __DIR__.'/views/index_view.php';
-
-    $indexModel = New IndexModel();
-    $indexController = New IndexController($indexModel);
-    $indexView = New IndexView($indexController, $indexModel);
-
-    print $indexView->index();
-
-}else{
-
-
-    // This is not home page
-    // Initiate the appropriate controller
-    // and render the required view
-
-    //The first element should be a controller
-    $requestedController = $url[0]; 
-
-    // If a second part is added in the URI, 
-    // it should be a method
-    $requestedAction = isset($url[1])? $url[1] :'';
-
-    // The remain parts are considered as 
-    // arguments of the method
-    $requestedParams = array_slice($url, 2); 
-
-    // Check if controller exists. NB: 
-    // You have to do that for the model and the view too
-    $ctrlPath = __DIR__.'/controllers/'.$requestedController.'_controller.php';
-
-
-
-    if (file_exists($ctrlPath))
-    {
-
-        require_once __DIR__.'/models/'.$requestedController.'_model.php';
-        require_once __DIR__.'/controllers/'.$requestedController.'_controller.php';
-        require_once __DIR__.'/views/'.$requestedController.'_view.php';
-
-        $modelName      = ucfirst($requestedController).'model';
-        $controllerName = ucfirst($requestedController).'controller';
-        $viewName       = ucfirst($requestedController).'view';
-
-        $controllerObj  = new $controllerName( new $modelName );
-        $viewObj        = new $viewName( $controllerObj, new $modelName );
-
-
-        // If there is a method - Second parameter
-        if ($requestedAction != '')
-        {
-            // then we call the method via the view
-            // dynamic call of the view
-            print $viewObj->$requestedAction($requestedParams);
-
-        }
-
+    $path_split = explode('/', ltrim($path));
+    
     }else{
 
-        header('HTTP/1.1 404 Not Found');
-        die('404 - The file - '.$ctrlPath.' - not found');
-        //require the 404 controller and initiate it
-        //Display its view
+        // Set Path to '/'
+
+        $path_split = '/';
     }
-}
 
+        if($path_split === '/'){
 
+            /* match with index route*   
+
+            Import IndexController and match requested method with it*/
+        
+        require_once __DIR__.'/Models/indexModel.php';
+        require_once __DIR__.'/Controllers/indexController.php';
+        $req_model = new IndexModel();
+        $req_controller = new IndexController($req_model);
+        
+        /***Model and Controller assignment with first letter as UPPERCASE*@return Class;*/
+        
+        $model = $req_model;$controller = $req_controller;
+        
+        /***Creating an Instance of the the model and the controller each*@return Object;*/
+        
+        $ModelObj = new $model;$ControllerObj = new $controller($req_model);
+        
+        /***Assigning Object of Class Init to a Variable, to make it Usable*@return Method Name;*/
+        
+        $method = $req_method;
+        
+        /***Check if Controller Exist is not empty, then performs an*action on the method;*@return true;*/
+        
+        if ($req_method != ''){
+            
+            /***Outputs The Required controller and the req *method respectively*@return Required Method;*/
+            
+            print $ControllerObj->$method($req_param);
+        }else{
+            
+            /***This works in only when the Url doesnt have a parameter*/
+            print $ControllerObj->index();
+        }}else{
+
+// Controllers other than Index Will be handled here}
+echo "Server Path </br>";
+
+$path= $_SERVER['PATH_INFO'];
+
+print_r($path);
+
+echo "<br/><br/>Path Split<br/>";
+print_r(explode('/', ltrim($path)));
 
 ?>
-
-
-
 
 
 
