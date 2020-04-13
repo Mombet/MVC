@@ -1,14 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<link href="public/CSS/style.css" rel="stylesheet" type="text/css" media="all">
-<title>JustBlog</title>
-</head>
-<body>
-<h1>Blog is comming<h1>
+<?php
 
+require 'application/lib/Dev.php';
 
+use application\core\Router;
 
-</body>
-</html>
+spl_autoload_register(function($class) {
+    $path = str_replace('\\', '/', $class.'.php');
+    if (file_exists($path)) {
+        require $path;
+    }
+});
+
+session_start();
+
+$router = new Router;
+$router->run();
