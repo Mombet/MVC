@@ -4,5 +4,5 @@ return [
 	'host' => '',
 	'name' => '',
 	'user' => '',
-	'password' => '',
+	'password' => ''
 ];

@@ -1,5 +1,7 @@
 <?php
 
+echo 'Hello1';
+
 require 'application/lib/Dev.php';
 
 use application\core\Router;
