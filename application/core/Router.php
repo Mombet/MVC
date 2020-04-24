@@ -16,11 +16,13 @@ class Router {
         }
     }
 
+    //метод добавления маршрутов 
     public function add($route, $params) {
-        $route = '#^'.$route.'$#';
+        $route = '#^'.$route.'$#'; //ключи массива стали регулярными выражениями
         $this->routes[$route] = $params;
     }
 
+    //метод проверки наличия маршрута
     public function match() {
         $url = trim($_SERVER['REQUEST_URI'], '/');
         foreach ($this->routes as $route => $params) {
@@ -34,7 +36,11 @@ class Router {
 
     public function run(){
         if ($this->match()) {
-            $path = 'application\controllers\\'.ucfirst($this->params['controller']).'Controller';
+        // echo 'маршрут найден';
+        echo '<p>controller: <b>'.$this->params['controller'].'</b></p>';
+        echo '<p>action: <b>'.$this->params['action'].'</b></p>';
+            
+        $path = 'application\controllers\\'.ucfirst($this->params['controller']).'Controller';
             if (class_exists($path)) {
                 $action = $this->params['action'].'Action';
                 if (method_exists($path, $action)) {
@@ -42,6 +48,7 @@ class Router {
                     $controller->$action();
                 } else {
                     View::errorCode(404);
+                    
                 }
             } else {
                 View::errorCode(404);
@@ -50,5 +57,4 @@ class Router {
             View::errorCode(404);
         }
     }
-
 }

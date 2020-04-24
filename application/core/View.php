@@ -13,6 +13,7 @@ class View {
 		$this->path = $route['controller'].'/'.$route['action'];
 	}
 
+	//метод отображения шаблона и вида
 	public function render($title, $vars = []) {
 		extract($vars);
 		$path = 'application/views/'.$this->path.'.php';
